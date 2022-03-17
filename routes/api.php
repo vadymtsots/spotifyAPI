@@ -20,4 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/search', [SpotifyController::class, 'search']);
-Route::post('/token', [SpotifyController::class, 'getAuthToken']);
+Route::get("artist/albums", [SpotifyController::class, 'artistAlbums']);
+

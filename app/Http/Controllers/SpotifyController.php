@@ -2,32 +2,42 @@
 
 namespace App\Http\Controllers;
 
+use App\Processor\ArtistAlbumsProcessor;
+use App\Processor\ArtistProcessor;
+use App\Service\Spotify\AuthService;
+use App\Service\Spotify\RequestService;
+use App\Service\Spotify\SpotifyService;
 use GuzzleHttp\Client;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Http;
 
 class SpotifyController
 {
-    public function getAuthToken()
+    private string $token;
+
+    public function __construct(AuthService $authService, private RequestService $requestService)
     {
-        $response = Http::withHeaders([
-            'Accepts' => 'application/json',
-            'Authorization' => 'Basic ' . base64_encode(env('SPOTIFY_CLIEND_ID') . ':' . env('SPOTIFY_CLIENT_SECRET')),
-        ])
-        ->asForm()
-        ->post('https://accounts.spotify.com/api/token', ['grant_type' => 'client_credentials']);
-
-        return json_decode($response->body());
-
+        $this->token = $authService->getAuthToken();
     }
-    public function search()
-    {   $token = $this->getAuthToken();
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $token->access_token
-        ])
-            ->acceptJson()
-            ->get('https://api.spotify.com/v1/search?q=Tallah&type=artist');
 
-        return json_decode($response);
+    public function search(ArtistProcessor $processor): array
+    {
+        $search = "Korn";
+        $type = "artist";
+        $response = $this->requestService->makeSearchRequest($search, $type, $this->token);
+        $artist = json_decode($response, true);
+
+        return $processor->get($artist);
+    }
+
+    public function artistAlbums(ArtistAlbumsProcessor $processor)
+    {
+        $id = "3RNrq3jvMZxD9ZyoOZbQOD";
+        $response = $this->requestService->makeArtistAlbumsRequest($id, $this->token);
+        $result = json_decode($response, true);
+
+        return $processor->get($result);
     }
 }
