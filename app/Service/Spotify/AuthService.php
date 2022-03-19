@@ -22,7 +22,7 @@ class AuthService
     {
         $response = Http::withHeaders([
             'Accepts' => 'application/json',
-            'Authorization' => 'Basic ' . base64_encode(env('SPOTIFY_CLIEND_ID') . ':' . env('SPOTIFY_CLIENT_SECRET')),
+            'Authorization' => 'Basic ' . base64_encode(env('SPOTIFY_CLIENT_ID') . ':' . env('SPOTIFY_CLIENT_SECRET')),
         ])
             ->asForm()
             ->post('https://accounts.spotify.com/api/token', ['grant_type' => 'client_credentials']);

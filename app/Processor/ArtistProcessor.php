@@ -5,18 +5,16 @@ namespace App\Processor;
 use JetBrains\PhpStorm\ArrayShape;
 use stdClass;
 
-class ArtistProcessor
+class ArtistProcessor extends BaseProcessor
 {
-    public function get(array $artists): array
-    {
-        return $this->process($artists);
-    }
-
-    #[ArrayShape(['spotify_id' => "mixed", 'name' => "mixed", 'followers' => "mixed", 'genres' => "array"])]
-    private function process(array $artists): array
+    /**
+     * @param array $entities
+     * @return array
+     */
+    protected function process(array $entities): array
     {
         $result = [];
-        foreach ($artists['artists']['items'] as $artist) {
+        foreach ($entities['artists']['items'] as $artist) {
             $result[] = [
                 'spotify_id' => $artist['id'],
                 'name' => $artist['name'],

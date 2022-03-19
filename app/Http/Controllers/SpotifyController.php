@@ -24,9 +24,9 @@ class SpotifyController
 
     public function search(ArtistProcessor $processor): array
     {
-        $search = "Korn";
+        $search = "Korn"; //temporarily hardcoded, TO DO: reformat to $request->get()
         $type = "artist";
-        $response = $this->requestService->makeSearchRequest($search, $type, $this->token);
+        $response = $this->requestService->searchRequest($search, $type, $this->token);
         $artist = json_decode($response, true);
 
         return $processor->get($artist);
@@ -34,8 +34,8 @@ class SpotifyController
 
     public function artistAlbums(ArtistAlbumsProcessor $processor)
     {
-        $id = "3RNrq3jvMZxD9ZyoOZbQOD";
-        $response = $this->requestService->makeArtistAlbumsRequest($id, $this->token);
+        $id = "3RNrq3jvMZxD9ZyoOZbQOD"; //temporarily hardcoded, TO DO: reformat to $request->get()
+        $response = $this->requestService->artistAlbumsRequest($id, $this->token);
         $result = json_decode($response, true);
 
         return $processor->get($result);
