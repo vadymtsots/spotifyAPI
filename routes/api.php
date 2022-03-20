@@ -20,5 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/search', [SpotifyController::class, 'search']);
-Route::get("artist/albums", [SpotifyController::class, 'artistAlbums']);
+Route::get('artist/albums', [SpotifyController::class, 'artistAlbums']);
+Route::get('album', [SpotifyController::class, 'album']);
 

@@ -14,27 +14,27 @@ class ArtistAlbumsProcessor extends BaseProcessor
      * @param array $entities
      * @return array
      */
-   protected function process(array $entities): array
-   {
-       $result = [];
-       $albums = $entities['items'];
-       try {
-           $albums = $this->sort($albums);
-           $albums = $this->removeDuplicateItems($albums);
+    protected function process(array $entities): array
+    {
+        $result = [];
+        $albums = $entities['items'];
+        try {
+            $albums = $this->sort($albums);
+            $albums = $this->removeDuplicateItems($albums);
 
-           foreach ($albums as $album) {
-               $result[] = [
-                   'spotify_id' => $album['id'],
-                   'name' => $album['name'],
-                   'release_date' => Date::createFromTimestamp(strtotime($album['release_date']))->format('j F Y'),
-                   'total_tracks' => $album['total_tracks']
-               ];
-           }
-       } catch (Exception $e) {
-           Log::error($e->getMessage());
-       }
+            foreach ($albums as $album) {
+                $result[] = [
+                    'spotify_id' => $album['id'],
+                    'name' => $album['name'],
+                    'release_date' => Date::createFromTimestamp(strtotime($album['release_date']))->format('j F Y'),
+                    'total_tracks' => $album['total_tracks']
+                ];
+            }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
 
-       return $result;
+        return $result;
     }
 
     /**
@@ -69,8 +69,8 @@ class ArtistAlbumsProcessor extends BaseProcessor
      */
     private function sort(array $albums): array
     {
-        usort($albums, function ($current, $next) {
-            return $current['name'] <=> $next['name'];
+        usort($albums, function ($first, $second) {
+            return $first['name'] <=> $second['name'];
         });
 
         return $albums;

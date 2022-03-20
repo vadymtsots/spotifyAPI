@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Http;
 
 class AuthService
 {
+    /**
+     * @return mixed
+     */
     public function getAuthToken()
     {
         $token = Cache::get('access_token');
@@ -18,6 +21,9 @@ class AuthService
         return $token;
     }
 
+    /**
+     * @return mixed
+     */
     private function generateAuthToken()
     {
         $response = Http::withHeaders([
