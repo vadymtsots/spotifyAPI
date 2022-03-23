@@ -27,6 +27,16 @@ class SpotifyClient
      * @param $token
      * @return PromiseInterface|Response
      */
+    public function artistRequest(string $id, $token): PromiseInterface|Response
+    {
+        $endpoint = self::SPOTIFY_API_URL . "artists/" . $id;
+        return $this->makeRequest($endpoint, $token);
+    }
+    /**
+     * @param string $id
+     * @param $token
+     * @return PromiseInterface|Response
+     */
     public function artistAlbumsRequest(string $id, $token): PromiseInterface|Response
     {
         $endpoint = self::SPOTIFY_API_URL . "artists/" . $id . "/albums?include_groups=album&market=US&limit=50";

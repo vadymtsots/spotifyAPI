@@ -11,10 +11,10 @@ use JetBrains\PhpStorm\ArrayShape;
 class ArtistAlbumsProcessor extends BaseProcessor
 {
     /**
-     * @param array $entities
+     * @param object $entities
      * @return array
      */
-    protected function process(array $entities): array
+    protected function process(object $entities): array
     {
         $result = [];
         $albums = $entities['items'];

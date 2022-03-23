@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Date;
 
 class AlbumProcessor extends BaseProcessor
 {
-    protected function process(array $entities)
+    protected function process(object $entities)
     {
         $result = [];
         $album = $entities;
