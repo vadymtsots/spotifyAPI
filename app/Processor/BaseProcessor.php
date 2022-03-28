@@ -2,12 +2,10 @@
 
 namespace App\Processor;
 
-use App\Mappers\Artist\Artist;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Log;
 use JsonMapper;
 use JsonMapper_Exception;
-use phpDocumentor\Reflection\Types\ClassString;
 
 
 abstract class BaseProcessor
@@ -22,8 +20,8 @@ abstract class BaseProcessor
     public function get($response, $object)
     {
         try {
-            $jsonArray = $this->parseJsonToArray($response);
-            $entities = (object)$this->mapJson($jsonArray, $object);
+            $jsonArray = $this->parseJson($response);
+            $entities = $this->mapJson($jsonArray, $object);
             return $this->process($entities);
         } catch (JsonMapper_Exception $e) {
             Log::error($e->getMessage());
@@ -34,7 +32,7 @@ abstract class BaseProcessor
      * @param Response $response
      * @return mixed
      */
-    private function parseJsonToArray($response)
+    private function parseJson($response): mixed
     {
         return json_decode($response);
     }

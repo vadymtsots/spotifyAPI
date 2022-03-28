@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\Entity;
 use App\Factory\EntityFactory;
-use App\Mappers\Artist\Artist;
 use App\Processor\AlbumProcessor;
 use App\Processor\ArtistAlbumsProcessor;
 use App\Processor\ArtistProcessor;
 use App\Service\Spotify\AuthService;
 use App\Service\Spotify\SpotifyClient;
-use GuzzleHttp\Client;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\Http;
+use Exception;
 use JsonMapper;
 
 class SpotifyController
@@ -24,7 +20,7 @@ class SpotifyController
         AuthService           $authService,
         private SpotifyClient $requestService,
         private JsonMapper    $mapper,
-        private EntityFactory $factory
+        private EntityFactory $entityFactory
     )
     {
         $this->token = $authService->getAuthToken();
@@ -41,12 +37,17 @@ class SpotifyController
 
     }
 
+    /**
+     * @param ArtistAlbumsProcessor $processor
+     * @return array
+     * @throws Exception
+     */
     public function artistAlbums(ArtistAlbumsProcessor $processor)
     {
         $id = "3RNrq3jvMZxD9ZyoOZbQOD"; //temporarily hardcoded, TO DO: reformat to $request->get()
         $response = $this->requestService->artistAlbumsRequest($id, $this->token);
 
-        return $processor->get($response);
+        return $processor->get($response, $this->entityFactory->create(Entity::ArtistAlbums));
     }
 
     public function album(AlbumProcessor $processor)
@@ -57,11 +58,16 @@ class SpotifyController
         return $processor->get($response);
     }
 
+    /**
+     * @param ArtistProcessor $processor
+     * @return array
+     * @throws Exception
+     */
     public function artist(ArtistProcessor $processor)
     {
         $id = "3RNrq3jvMZxD9ZyoOZbQOD";
         $response = $this->requestService->artistRequest($id, $this->token);
 
-        return $processor->get($response, $this->factory->create('artist'));
+        return $processor->get($response, $this->entityFactory->create(Entity::Artist));
     }
 }

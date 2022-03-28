@@ -2,9 +2,11 @@
 
 namespace App\Processor;
 
+use App\Mappers\ArtistAlbums\AlbumItems;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -17,17 +19,17 @@ class ArtistAlbumsProcessor extends BaseProcessor
     protected function process(object $entities): array
     {
         $result = [];
-        $albums = $entities['items'];
+        $albums = $entities->items;
         try {
             $albums = $this->sort($albums);
             $albums = $this->removeDuplicateItems($albums);
 
             foreach ($albums as $album) {
                 $result[] = [
-                    'spotify_id' => $album['id'],
-                    'name' => $album['name'],
-                    'release_date' => Date::createFromTimestamp(strtotime($album['release_date']))->format('j F Y'),
-                    'total_tracks' => $album['total_tracks']
+                    'spotify_id' => $album->id,
+                    'name' => $album->name,
+                    'release_date' => Date::createFromTimestamp(strtotime($album->release_date))->format('j F Y'),
+                    'total_tracks' => $album->total_tracks
                 ];
             }
         } catch (Exception $e) {
@@ -54,7 +56,7 @@ class ArtistAlbumsProcessor extends BaseProcessor
     private function removeDuplicateItems(array $albums): array
     {
         for ($i = 0; $i < count($albums) - 1; $i++) {
-            if ($albums[$i]['name'] === $albums[$i + 1]['name']) {
+            if ($albums[$i]->name === $albums[$i + 1]->name) {
                 unset($albums[$i]);
                 $albums = array_values($albums);
             }
@@ -70,7 +72,7 @@ class ArtistAlbumsProcessor extends BaseProcessor
     private function sort(array $albums): array
     {
         usort($albums, function ($first, $second) {
-            return $first['name'] <=> $second['name'];
+            return $first->name <=> $second->name;
         });
 
         return $albums;
