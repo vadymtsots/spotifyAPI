@@ -2,12 +2,9 @@
 
 namespace App\Enum;
 
-enum Entity: int
+enum Entity
 {
-    case Artist = 1;
-    case Album = 2;
-    case ArtistAlbums = 3;
-    case Track = 4;
-    case TrackAudioFeatures = 5;
-    case TrackAudioAnalysis = 6;
+    case Artist;
+    case Album;
+    case ArtistAlbums;
 }

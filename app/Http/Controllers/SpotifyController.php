@@ -26,16 +26,16 @@ class SpotifyController
         $this->token = $authService->getAuthToken();
     }
 
-    public function search(ArtistProcessor $processor)
-    {
-        $search = "Korn"; //temporarily hardcoded, TO DO: reformat to $request->get()
-        $type = "artist";
-        $response = $this->requestService->searchRequest($search, $type, $this->token);
-
-        $response = $processor->get($response, $this->mapper);
-        dd($response);
-
-    }
+//    public function search(ArtistProcessor $processor)
+//    {
+//        $search = "Korn"; //temporarily hardcoded, TO DO: reformat to $request->get()
+//        $type = "artist";
+//        $response = $this->requestService->searchRequest($search, $type, $this->token);
+//
+//        $response = $processor->get($response, $this->mapper);
+//        dd($response);
+//
+//    }
 
     /**
      * @param ArtistAlbumsProcessor $processor
@@ -50,14 +50,6 @@ class SpotifyController
         return $processor->get($response, $this->entityFactory->create(Entity::ArtistAlbums));
     }
 
-    public function album(AlbumProcessor $processor)
-    {
-        $id = "0gsiszk6JWYwAyGvaTTud4";
-        $response = $this->requestService->albumRequest($id, $this->token);
-
-        return $processor->get($response);
-    }
-
     /**
      * @param ArtistProcessor $processor
      * @return array
@@ -69,5 +61,13 @@ class SpotifyController
         $response = $this->requestService->artistRequest($id, $this->token);
 
         return $processor->get($response, $this->entityFactory->create(Entity::Artist));
+    }
+
+    public function album(AlbumProcessor $processor)
+    {
+        $id = "0gsiszk6JWYwAyGvaTTud4";
+        $response = $this->requestService->albumRequest($id, $this->token);
+
+        return $processor->get($response, $this->entityFactory->create(Entity::Album));
     }
 }

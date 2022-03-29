@@ -16,6 +16,7 @@ class ArtistAlbumsProcessor extends BaseProcessor
      * @param object $entities
      * @return array
      */
+    #[ArrayShape(['spotify_id' => "string", 'name' => "string", 'release_date' => "string", 'total_tracks' => "int"])]
     protected function process(object $entities): array
     {
         $result = [];
@@ -29,7 +30,8 @@ class ArtistAlbumsProcessor extends BaseProcessor
                     'spotify_id' => $album->id,
                     'name' => $album->name,
                     'release_date' => Date::createFromTimestamp(strtotime($album->release_date))->format('j F Y'),
-                    'total_tracks' => $album->total_tracks
+                    'total_tracks' => $album->total_tracks,
+                    'url' => $album->external_urls->spotify
                 ];
             }
         } catch (Exception $e) {

@@ -13,11 +13,13 @@ abstract class BaseProcessor
     public function __construct(protected JsonMapper $mapper)
     {
     }
+
     /**
      * @param Response $response
+     * @param $object
      * @return array
      */
-    public function get($response, $object)
+    public function get(Response $response, $object): array
     {
         try {
             $jsonArray = $this->parseJson($response);
@@ -32,7 +34,7 @@ abstract class BaseProcessor
      * @param Response $response
      * @return mixed
      */
-    private function parseJson($response): mixed
+    private function parseJson(Response $response): mixed
     {
         return json_decode($response);
     }

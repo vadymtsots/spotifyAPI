@@ -2,38 +2,40 @@
 
 namespace App\Processor;
 
+use App\Mappers\Album\Album;
 use Illuminate\Support\Facades\Date;
+use JetBrains\PhpStorm\ArrayShape;
 
 class AlbumProcessor extends BaseProcessor
 {
-    protected function process(object $entities)
+    /**
+     * @param Album $entities
+     * @return array
+     */
+    #[ArrayShape(['spotify_id' => "string", 'name' => "string", 'label' => "string", 'release_date' => "string", 'tracks' => "object"])]
+    protected function process($entities): array
     {
-        $result = [];
-        $album = $entities;
-
-        $result = [
-            'spotify_id' => $album['id'],
-            'name' => $album['name'],
-            'label' => $album['label'],
-            'release_date' => Date::createFromTimestamp(strtotime($album['release_date']))->format('j F Y'),
-            'tracks' => $this->tracks($album['tracks']['items'])
+        return [
+            'spotify_id' => $entities->id,
+            'name' => $entities->name,
+            'label' => $entities->label,
+            'release_date' => Date::createFromTimestamp(strtotime($entities->release_date))->format('j F Y'),
+            'tracks' => $entities->tracks
         ];
-
-        return $result;
     }
 
-    private function tracks(array $tracks)
-    {
-        $result = [];
-
-        foreach ($tracks as $track) {
-            $result[] = [
-                'track_number' => $track['track_number'],
-                'name' => $track['name'],
-                'duration' => Date::createFromTimestampMs($track['duration_ms'])->toTimeString(),
-            ];
-        }
-
-        return $result;
-    }
+//    private function tracks(array $tracks)
+//    {
+//        $result = [];
+//
+//        foreach ($tracks as $track) {
+//            $result[] = [
+//                'track_number' => $track['track_number'],
+//                'name' => $track['name'],
+//                'duration' => Date::createFromTimestampMs($track['duration_ms'])->toTimeString(),
+//            ];
+//        }
+//
+//        return $result;
+//    }
 }
