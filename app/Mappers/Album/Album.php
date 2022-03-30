@@ -80,9 +80,9 @@ class Album
     public int $total_tracks;
 
     /**
-     * @var object
+     * @var TracksObject
      */
-    public object $tracks;
+    public TracksObject $tracks;
 
     /**
      * @var string
