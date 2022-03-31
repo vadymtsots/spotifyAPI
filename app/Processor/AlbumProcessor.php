@@ -13,20 +13,25 @@ class AlbumProcessor extends BaseProcessor
      * @param Album $entities
      * @return array
      */
-    #[ArrayShape(['spotify_id' => "string", 'name' => "string", 'label' => "string", 'release_date' => "string", 'duration' => "string"])]
+    #[ArrayShape(['spotify_id' => "string", 'name' => "string", 'label' => "string", 'release_date' => "string", 'duration' => "string", 'tracklist' => "array"])]
     protected function process($entities): array
     {
         $albumDuration = $this->calculateAlbumDuration($entities->tracks->items);
+        $tracklist = $this->getTracklist($entities->tracks->items);
         return [
             'spotify_id' => $entities->id,
             'name' => $entities->name,
             'label' => $entities->label,
             'release_date' => Date::createFromTimestamp(strtotime($entities->release_date))->format('j F Y'),
-            'duration' => $albumDuration
-//            'tracks' => $entities->tracks
+            'duration' => $albumDuration,
+            'tracklist' => $tracklist
         ];
     }
 
+    /**
+     * @param array $tracks
+     * @return array
+     */
     private function extractTracksDurations(array $tracks): array
     {
         $durations = [];
@@ -38,6 +43,10 @@ class AlbumProcessor extends BaseProcessor
         return $durations;
     }
 
+    /**
+     * @param array $tracks
+     * @return string
+     */
     private function calculateAlbumDuration(array $tracks): string
     {
         $durations = $this->extractTracksDurations($tracks);
@@ -45,18 +54,27 @@ class AlbumProcessor extends BaseProcessor
         return Date::createFromTimestampMs($total)->toTimeString();
     }
 
-//    private function tracks(array $tracks)
-//    {
-//        $result = [];
-//
-//        foreach ($tracks as $track) {
-//            $result[] = [
-//                'track_number' => $track['track_number'],
-//                'name' => $track['name'],
-//                'duration' => Date::createFromTimestampMs($track['duration_ms'])->toTimeString(),
-//            ];
-//        }
-//
-//        return $result;
-//    }
+    /**
+     * @param array $tracks
+     * @return array
+     */
+    private function getTracklist(array $tracks): array
+    {
+        $tracklist = [];
+
+        /**
+         * @var TracksItems $track
+         */
+        foreach($tracks as $track) {
+            $tracklist[] =
+                [
+                    'id' => $track->id,
+                    'number' => $track->track_number,
+                    'name' => $track->name,
+                    'duration' => Date::createFromTimestampMs($track->duration_ms)->toTimeString()
+                ];
+        }
+
+        return $tracklist;
+    }
 }

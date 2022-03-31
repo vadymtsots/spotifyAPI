@@ -39,6 +39,11 @@ abstract class BaseProcessor
         return json_decode($response);
     }
 
+    /**
+     * @param $json
+     * @param $object
+     * @return mixed|object|void
+     */
     protected function mapJson($json, $object)
     {
         try {
@@ -52,5 +57,5 @@ abstract class BaseProcessor
      * @param object $entities
      * @return mixed
      */
-    abstract protected function process(object $entities);
+    abstract protected function process(object $entities): array;
 }
