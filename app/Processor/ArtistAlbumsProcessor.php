@@ -2,6 +2,7 @@
 
 namespace App\Processor;
 
+use App\Helpers\DateTimeHelper;
 use App\Mappers\ArtistAlbums\AlbumItems;
 use Exception;
 use Illuminate\Support\Arr;
@@ -29,7 +30,7 @@ class ArtistAlbumsProcessor extends BaseProcessor
                 $result[] = [
                     'spotify_id' => $album->id,
                     'name' => $album->name,
-                    'release_date' => Date::createFromTimestamp(strtotime($album->release_date))->format('j F Y'),
+                    'release_date' => DateTimeHelper::getReleaseDateString($album->release_date),
                     'total_tracks' => $album->total_tracks,
                     'url' => $album->external_urls->spotify
                 ];

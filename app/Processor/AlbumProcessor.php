@@ -2,6 +2,7 @@
 
 namespace App\Processor;
 
+use App\Helpers\DateTimeHelper;
 use App\Mappers\Album\Album;
 use App\Mappers\Album\TracksItems;
 use Illuminate\Support\Facades\Date;
@@ -22,7 +23,7 @@ class AlbumProcessor extends BaseProcessor
             'spotify_id' => $entities->id,
             'name' => $entities->name,
             'label' => $entities->label,
-            'release_date' => Date::createFromTimestamp(strtotime($entities->release_date))->format('j F Y'),
+            'release_date' => DateTimeHelper::getReleaseDateString($entities->release_date),
             'duration' => $albumDuration,
             'tracklist' => $tracklist
         ];
@@ -53,7 +54,7 @@ class AlbumProcessor extends BaseProcessor
     {
         $durations = $this->extractTracksDurations($tracks);
         $total = array_sum($durations);
-        return Date::createFromTimestampMs($total)->toTimeString();
+        return DateTimeHelper::getTimeString($total);
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Factory\EntityFactory;
 use App\Processor\AlbumProcessor;
 use App\Processor\ArtistAlbumsProcessor;
 use App\Processor\ArtistProcessor;
+use App\Processor\TrackProcessor;
 use App\Service\Spotify\AuthService;
 use App\Service\Spotify\SpotifyClient;
 use Exception;
@@ -19,7 +20,6 @@ class SpotifyController
     public function __construct(
         AuthService           $authService,
         private SpotifyClient $requestService,
-        private JsonMapper    $mapper,
         private EntityFactory $entityFactory
     )
     {
@@ -69,5 +69,13 @@ class SpotifyController
         $response = $this->requestService->albumRequest($id, $this->token);
 
         return $processor->get($response, $this->entityFactory->create(Entity::Album));
+    }
+
+    public function track(TrackProcessor $processor)
+    {
+        $id = "6vsyag9kEPckt19NClSf51";
+        $response = $this->requestService->trackRequest($id, $this->token);
+
+        return $processor->get($response, $this->entityFactory->create(Entity::Track));
     }
 }

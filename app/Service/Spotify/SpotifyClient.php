@@ -54,6 +54,12 @@ class SpotifyClient
         return $this->makeRequest($endpoint, $token);
     }
 
+    public function trackRequest(string $id, $token): PromiseInterface|Response
+    {
+        $endpoint = self::SPOTIFY_API_URL . "tracks/" . $id . "?market=US";
+        return $this->makeRequest($endpoint, $token);
+    }
+
     /**
      * @param string $endpoint
      * @param $token

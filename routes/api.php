@@ -23,4 +23,5 @@ Route::get('/search', [SpotifyController::class, 'search']);
 Route::get('artist/albums', [SpotifyController::class, 'artistAlbums']);
 Route::get('album', [SpotifyController::class, 'album']);
 Route::get('artist', [SpotifyController::class, 'artist']);
+Route::get('track', [SpotifyController::class, 'track']);
 

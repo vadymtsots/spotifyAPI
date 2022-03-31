@@ -6,6 +6,7 @@ use App\Enum\Entity;
 use App\Mappers\Album\Album;
 use App\Mappers\Artist\Artist;
 use App\Mappers\ArtistAlbums\ArtistAlbums;
+use App\Mappers\Track\Track;
 
 /**
  * This factory is used to create Entity objects.
@@ -16,17 +17,23 @@ class EntityFactory
     public function __construct(
         private Artist $artist,
         private ArtistAlbums $artistAlbums,
-        private Album $album)
+        private Album $album,
+        private Track $track)
     {
 
     }
 
+    /**
+     * @param Entity $type
+     * @return object
+     */
     public function create(Entity $type): object
     {
         return match($type) {
             Entity::Artist => $this->artist,
             Entity::Album => $this->album,
             Entity::ArtistAlbums => $this->artistAlbums,
+            Entity::Track => $this->track
         };
     }
 }
