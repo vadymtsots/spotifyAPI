@@ -10,6 +10,7 @@ class TracksObject
     public string $href;
 
     /**
+     * Array of TrackItems objects
      * @var TracksItems[]
      */
     public array $items;

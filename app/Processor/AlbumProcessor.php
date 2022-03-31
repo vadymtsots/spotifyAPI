@@ -29,6 +29,8 @@ class AlbumProcessor extends BaseProcessor
     }
 
     /**
+     * EXtract tracks durations from the array
+     * Populate durations array with these values
      * @param array $tracks
      * @return array
      */

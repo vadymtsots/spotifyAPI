@@ -7,6 +7,10 @@ use App\Mappers\Album\Album;
 use App\Mappers\Artist\Artist;
 use App\Mappers\ArtistAlbums\ArtistAlbums;
 
+/**
+ * This factory is used to create Entity objects.
+ * These objects are mapped with json response from Spotify API
+ */
 class EntityFactory
 {
     public function __construct(

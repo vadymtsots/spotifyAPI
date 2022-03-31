@@ -13,6 +13,7 @@ class ArtistAlbums
     public string $href;
 
     /**
+     * Array of AlbumItems objects
      * @var AlbumItems[]
      */
     public array $items;
