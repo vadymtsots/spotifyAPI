@@ -7,11 +7,6 @@ use JetBrains\PhpStorm\ArrayShape;
 
 class ArtistProcessor extends BaseProcessor
 {
-    /**
-     * @param Artist $entities
-     * @return array
-     */
-    #[ArrayShape(['name' => "string", 'followers' => "string", 'popularity' => "int", 'genres' => "array", 'url' => 'string'])]
     protected function process($entities): array
     {
         return [

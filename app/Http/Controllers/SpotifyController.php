@@ -10,8 +10,6 @@ use App\Processor\ArtistProcessor;
 use App\Processor\TrackProcessor;
 use App\Service\Spotify\AuthService;
 use App\Service\Spotify\SpotifyClient;
-use Exception;
-use JsonMapper;
 
 class SpotifyController
 {
@@ -37,12 +35,7 @@ class SpotifyController
 //
 //    }
 
-    /**
-     * @param ArtistAlbumsProcessor $processor
-     * @return array
-     * @throws Exception
-     */
-    public function artistAlbums(ArtistAlbumsProcessor $processor)
+    public function artistAlbums(ArtistAlbumsProcessor $processor): array
     {
         $id = "3RNrq3jvMZxD9ZyoOZbQOD"; //temporarily hardcoded, TO DO: reformat to $request->get()
         $response = $this->requestService->artistAlbumsRequest($id, $this->token);
@@ -50,12 +43,7 @@ class SpotifyController
         return $processor->get($response, $this->entityFactory->create(Entity::ArtistAlbums));
     }
 
-    /**
-     * @param ArtistProcessor $processor
-     * @return array
-     * @throws Exception
-     */
-    public function artist(ArtistProcessor $processor)
+    public function artist(ArtistProcessor $processor): array
     {
         $id = "3RNrq3jvMZxD9ZyoOZbQOD";
         $response = $this->requestService->artistRequest($id, $this->token);
@@ -63,7 +51,7 @@ class SpotifyController
         return $processor->get($response, $this->entityFactory->create(Entity::Artist));
     }
 
-    public function album(AlbumProcessor $processor)
+    public function album(AlbumProcessor $processor): array
     {
         $id = "0gsiszk6JWYwAyGvaTTud4";
         $response = $this->requestService->albumRequest($id, $this->token);
@@ -71,11 +59,19 @@ class SpotifyController
         return $processor->get($response, $this->entityFactory->create(Entity::Album));
     }
 
-    public function track(TrackProcessor $processor)
+    public function track(TrackProcessor $processor): array
     {
         $id = "6vsyag9kEPckt19NClSf51";
         $response = $this->requestService->trackRequest($id, $this->token);
 
         return $processor->get($response, $this->entityFactory->create(Entity::Track));
+    }
+
+    public function trackAudioFeatures()
+    {
+        $id = "6vsyag9kEPckt19NClSf51";
+        $response = $this->requestService->trackAudioFeaturesRequest($id, $this->token);
+
+        return $response;
     }
 }

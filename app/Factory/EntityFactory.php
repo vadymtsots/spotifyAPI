@@ -18,15 +18,10 @@ class EntityFactory
         private Artist $artist,
         private ArtistAlbums $artistAlbums,
         private Album $album,
-        private Track $track)
-    {
-
+        private Track $track
+    ) {
     }
 
-    /**
-     * @param Entity $type
-     * @return object
-     */
     public function create(Entity $type): object
     {
         return match($type) {

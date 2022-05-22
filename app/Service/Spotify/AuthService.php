@@ -14,7 +14,7 @@ class AuthService
     {
         $token = Cache::get('access_token');
 
-        if (!Cache::has('access_token')) {
+        if (null === $token) {
             $token = $this->generateAuthToken();
         }
 

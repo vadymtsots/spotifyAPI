@@ -3,16 +3,9 @@
 namespace App\Processor;
 
 use App\Helpers\DateTimeHelper;
-use App\Mappers\Track\Track;
-use JetBrains\PhpStorm\ArrayShape;
 
 class TrackProcessor extends BaseProcessor
 {
-    /**
-     * @param Track $entities
-     * @return array
-     */
-    #[ArrayShape(['id' => "string", 'name' => "string", 'popularity' => "int", 'url' => "mixed", 'duration' => "string"])]
     protected function process($entities): array
     {
         return [

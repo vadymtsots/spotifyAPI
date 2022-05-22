@@ -14,36 +14,19 @@ abstract class BaseProcessor
     {
     }
 
-    /**
-     * @param Response $response
-     * @param $object
-     * @return array
-     */
     public function get(Response $response, $object): array
     {
-        try {
-            $jsonArray = $this->parseJson($response);
-            $entities = $this->mapJson($jsonArray, $object);
-            return $this->process($entities);
-        } catch (JsonMapper_Exception $e) {
-            Log::error($e->getMessage());
-        }
+        $jsonArray = $this->parseJson($response);
+        $entities = $this->mapJson($jsonArray, $object);
+
+        return $this->process($entities);
     }
 
-    /**
-     * @param Response $response
-     * @return mixed
-     */
     private function parseJson(Response $response): mixed
     {
         return json_decode($response);
     }
 
-    /**
-     * @param $json
-     * @param $object
-     * @return mixed|object|void
-     */
     protected function mapJson($json, $object)
     {
         try {
@@ -53,9 +36,5 @@ abstract class BaseProcessor
         }
     }
 
-    /**
-     * @param object $entities
-     * @return mixed
-     */
     abstract protected function process(object $entities): array;
 }

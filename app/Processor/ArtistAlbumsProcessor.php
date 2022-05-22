@@ -5,28 +5,21 @@ namespace App\Processor;
 use App\Helpers\DateTimeHelper;
 use App\Mappers\ArtistAlbums\AlbumItems;
 use Exception;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use JetBrains\PhpStorm\ArrayShape;
 
 class ArtistAlbumsProcessor extends BaseProcessor
 {
-    /**
-     * @param object $entities
-     * @return array
-     */
-    #[ArrayShape(['spotify_id' => "string", 'name' => "string", 'release_date' => "string", 'total_tracks' => "int"])]
     protected function process(object $entities): array
     {
         $result = [];
         $albums = $entities->items;
-        try {
-            $albums = $this->sort($albums);
-            $albums = $this->removeDuplicateItems($albums);
 
-            foreach ($albums as $album) {
+        try {
+            $sortedAlbums = $this->sortAlbumsArrayByName($albums);
+            $processableAlbums = $this->removeDuplicateItems($sortedAlbums);
+
+            /** @var AlbumItems $album */
+            foreach ($processableAlbums as $album) {
                 $result[] = [
                     'spotify_id' => $album->id,
                     'name' => $album->name,
@@ -51,28 +44,24 @@ class ArtistAlbumsProcessor extends BaseProcessor
      * ...,
      * 20 => ['name' => 'value', 'other key' => 'value']
      * ]
-     * For some reason, there are arrays that have the same value for the 'name' key, as well as other keys, but thay have different ids
+     * For some reason, there are arrays that have the same value for the 'name' key, as well as other keys, but they have different ids
      * This method removes arrays with duplicate 'name' values
-     * @param array $albums
-     * @return array
      */
-    private function removeDuplicateItems(array $albums): array
+    private function removeDuplicateItems(array $originalAlbumsArray): array
     {
-        for ($i = 0; $i < count($albums) - 1; $i++) {
-            if ($albums[$i]->name === $albums[$i + 1]->name) {
-                unset($albums[$i]);
-                $albums = array_values($albums);
+        $updatedAlbumsArray = [];
+
+        for ($i = 0; $i < count($originalAlbumsArray) - 1; $i++) {
+            if ($originalAlbumsArray[$i]->name === $originalAlbumsArray[$i + 1]->name) {
+                unset($originalAlbumsArray[$i]);
+                $updatedAlbumsArray = array_values($originalAlbumsArray);
             }
         }
-        return $albums;
+
+        return $updatedAlbumsArray;
     }
 
-    /**
-     * This sorts the multidimensional artist's albums array by the 'name' key
-     * @param array $albums
-     * @return array
-     */
-    private function sort(array $albums): array
+    private function sortAlbumsArrayByName(array $albums): array
     {
         usort($albums, function ($first, $second) {
             return $first->name <=> $second->name;
