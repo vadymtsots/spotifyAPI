@@ -8,4 +8,5 @@ enum Entity
     case Album;
     case ArtistAlbums;
     case Track;
+    case SearchObject;
 }

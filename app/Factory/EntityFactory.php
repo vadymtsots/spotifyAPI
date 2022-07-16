@@ -6,6 +6,7 @@ use App\Enum\Entity;
 use App\Mappers\Album\Album;
 use App\Mappers\Artist\Artist;
 use App\Mappers\ArtistAlbums\ArtistAlbums;
+use App\Mappers\Search\SearchObject;
 use App\Mappers\Track\Track;
 
 /**
@@ -18,7 +19,8 @@ class EntityFactory
         private Artist $artist,
         private ArtistAlbums $artistAlbums,
         private Album $album,
-        private Track $track
+        private Track $track,
+        private SearchObject $searchObject
     ) {
     }
 
@@ -28,7 +30,8 @@ class EntityFactory
             Entity::Artist => $this->artist,
             Entity::Album => $this->album,
             Entity::ArtistAlbums => $this->artistAlbums,
-            Entity::Track => $this->track
+            Entity::Track => $this->track,
+            Entity::SearchObject => $this->searchObject
         };
     }
 }

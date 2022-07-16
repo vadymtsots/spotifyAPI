@@ -1,16 +1,13 @@
 <?php
 
-namespace App\Mappers\ArtistAlbums;
+namespace App\Mappers\Artist;
 
-use ArrayObject;
-use Illuminate\Support\Collection;
-
-class ArtistAlbums
+class ArtistObject
 {
     public string $href;
 
     /**
-     * @var AlbumItems[]
+     * @var ArtistItem[]
      */
     public array $items;
 

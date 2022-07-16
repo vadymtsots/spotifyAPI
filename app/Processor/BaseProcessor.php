@@ -12,28 +12,22 @@ abstract class BaseProcessor
 {
     public function __construct(protected JsonMapper $mapper)
     {
+        $this->mapper->bEnforceMapType = false;
     }
 
-    public function get(Response $response, $object): array
+    public function get(array $spotifyResponse, object $object): array
     {
-        $jsonArray = $this->parseJson($response);
-        $entities = $this->mapJson($jsonArray, $object);
+        $entities = $this->mapJson($spotifyResponse, $object);
 
         return $this->process($entities);
     }
 
-    private function parseJson(Response $response): mixed
+    /**
+     * @throws JsonMapper_Exception
+     */
+    protected function mapJson(array $json, object $object): object
     {
-        return json_decode($response);
-    }
-
-    protected function mapJson($json, $object)
-    {
-        try {
-            return $this->mapper->map($json, $object);
-        } catch(JsonMapper_Exception $e) {
-            Log::error($e->getMessage());
-        }
+        return $this->mapper->map($json, $object);
     }
 
     abstract protected function process(object $entities): array;
