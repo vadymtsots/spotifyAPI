@@ -4,9 +4,15 @@ namespace App\Processor;
 
 use App\Helpers\DateTimeHelper;
 use App\Mappers\Album\TracksItems;
+use JsonMapper;
 
 class AlbumProcessor extends BaseProcessor
 {
+    public function __construct(protected JsonMapper $mapper)
+    {
+        $this->mapper->bEnforceMapType = false;
+    }
+
     protected function process($entities): array
     {
         $albumDuration = $this->calculateAlbumDuration($entities->tracks->items);

@@ -2,10 +2,17 @@
 
 namespace App\Processor;
 
+use App\Dto\Mapper;
 use App\Helpers\DateTimeHelper;
+use JsonMapper;
 
 class TrackProcessor extends BaseProcessor
 {
+    public function __construct(protected JsonMapper $mapper)
+    {
+        $this->mapper->bEnforceMapType = false;
+    }
+
     protected function process($entities): array
     {
         return [

@@ -10,7 +10,6 @@ use App\Processor\ArtistAlbumsProcessor;
 use App\Processor\ArtistProcessor;
 use App\Processor\SearchProcessor;
 use App\Processor\TrackProcessor;
-use App\Service\Spotify\SpotifyClient;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 

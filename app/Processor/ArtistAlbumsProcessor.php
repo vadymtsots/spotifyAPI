@@ -6,9 +6,15 @@ use App\Helpers\DateTimeHelper;
 use App\Mappers\ArtistAlbums\AlbumItems;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use JsonMapper;
 
 class ArtistAlbumsProcessor extends BaseProcessor
 {
+    public function __construct(protected JsonMapper $mapper)
+    {
+        $this->mapper->bEnforceMapType = false;
+    }
+
     protected function process(object $entities): array
     {
         $result = [];
