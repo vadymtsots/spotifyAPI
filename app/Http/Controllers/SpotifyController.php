@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use Aerni\Spotify\Spotify;
 use App\Enum\Entity;
 use App\Factory\EntityFactory;
+use App\Models\Artist;
 use App\Processor\AlbumProcessor;
 use App\Processor\ArtistAlbumsProcessor;
 use App\Processor\ArtistProcessor;
 use App\Processor\SearchProcessor;
 use App\Processor\TrackProcessor;
+use App\Service\Spotify\SpotifyService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class SpotifyController
 {
@@ -22,11 +26,18 @@ class SpotifyController
     {
     }
 
-    public function search(SearchProcessor $processor): JsonResponse
+    public function search(
+        Request $request,
+        SearchProcessor $processor
+    ): JsonResponse
     {
         try {
-            $search = "Korn"; //temporarily hardcoded, TO DO: reformat to $request->get()
-            $type = ['artist', 'album'];
+            Validator::validate($request->all(), [
+                'search' => 'required|string'
+            ]);
+
+            $search = $request->get('search');
+            $type = ['artist'];
             $response = $this->spotifyClient->searchItems($search, $type)->get();
 
             $searchResults = $processor->get(
@@ -58,13 +69,12 @@ class SpotifyController
         return $processor->get($response, $this->entityFactory->create(Entity::ArtistAlbums));
     }
 
-    public function artist(ArtistProcessor $processor)
+    public function artist(SpotifyService $spotifyService)
     {
         try {
-            $id = "3RNrq3jvMZxD9ZyoOZbQOD";
-            $response = $this->spotifyClient->artist($id)->get();
+            $id = '4P0dddbxPil35MNN9G2MEX';
 
-            $artist = $processor->get($response, $this->entityFactory->create(Entity::Artist));
+            $artist = $spotifyService->getArtistBySpotifyId($id);
 
             return response()->json([
                 'data' => $artist

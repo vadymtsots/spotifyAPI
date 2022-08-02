@@ -5,6 +5,7 @@ namespace App\Factory;
 use App\Enum\Entity;
 use App\Mappers\Album\Album;
 use App\Mappers\Artist\Artist;
+use App\Mappers\Artist\ArtistItem;
 use App\Mappers\ArtistAlbums\ArtistAlbums;
 use App\Mappers\Search\SearchObject;
 use App\Mappers\Track\Track;
@@ -16,7 +17,7 @@ use App\Mappers\Track\Track;
 class EntityFactory
 {
     public function __construct(
-        private Artist $artist,
+        private ArtistItem $artist,
         private ArtistAlbums $artistAlbums,
         private Album $album,
         private Track $track,
