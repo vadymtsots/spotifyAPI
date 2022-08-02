@@ -9,6 +9,7 @@ In order to use this repo, do the following:
     - run composer install;
     - create .env file from .env.example
     - generate Spotify API keys on official site: www.spotify.com
+    - pass these ids into .env file (SPOTIFY_CLIENT_ID and SPOTIFY_CLIENT_SECRET)
     - run php artisan serve;
 
 This is enough to use endpoints prefixed with /spotify
