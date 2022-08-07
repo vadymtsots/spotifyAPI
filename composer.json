@@ -9,6 +9,7 @@
         "ext-http": "*",
         "ext-intl": "*",
         "aerni/laravel-spotify": "^2.0",
+        "darkaonline/l5-swagger": "^8.3",
         "guzzlehttp/guzzle": "^7.4",
         "laravel/framework": "^9.2",
         "laravel/sanctum": "^2.14.1",
