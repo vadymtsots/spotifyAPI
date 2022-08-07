@@ -9,7 +9,7 @@ use Illuminate\Routing\Controller as BaseController;
 
 /**
  * @OA\Info(
- *    title="Your super  ApplicationAPI",
+ *    title="Spotify API docs",
  *    version="1.0.0",
  * )
  */

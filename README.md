@@ -18,10 +18,10 @@ How to generate Spotify API keys:
 In order to use this repo, do the following:
 
 - clone repository;
-- run composer install;
+- run `composer install`;
 - create .env file from .env.example
 - pass these Spotify keys into .env file (SPOTIFY_CLIENT_ID and SPOTIFY_CLIENT_SECRET)
-- run php artisan serve;
+- run `php artisan serve`;
 
 This is enough to use endpoints prefixed with /spotify
 
@@ -29,7 +29,11 @@ In order to enable search by genre functionality, do the following steps after t
 
 - setup Mysql database locally;
 - enter credentials in .env file;
-- run php artisan migrate;
-- run php artisan import:artists, which will import 7 example artists;
+- run `php artisan migrate`;
+- run `php artisan import:artists`, which will import 7 example artists;
+
+Swagger documentation:
+- path = /api/docs;
+- generate docs: `php artisan l5-swagger:generate`
 
 
