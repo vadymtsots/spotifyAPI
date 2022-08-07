@@ -5,6 +5,7 @@ use App\Http\Controllers\Artist\SearchController;
 use App\Http\Controllers\SpotifyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Spotify as SpotifyControllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,13 +23,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('spotify')->group(function () {
-    Route::get('/search', [SpotifyController::class, 'search']);
-    Route::get('artist/albums', [SpotifyController::class, 'artistAlbums']);
+    Route::post('/search', SpotifyControllers\SearchController::class);
+    Route::post('artist/albums', SpotifyControllers\ArtistAlbumsController::class);
     Route::post('/artist/save', SaveController::class);
-    Route::get('album', [SpotifyController::class, 'album']);
-    Route::get('artist', [SpotifyController::class, 'artist']);
-    Route::get('track', [SpotifyController::class, 'track']);
-    Route::get('audio-features', [SpotifyController::class, 'trackAudioFeatures']);
+    Route::post('album', SpotifyControllers\AlbumController::class);
+    Route::post('artist', SpotifyControllers\ArtistController::class);
+    Route::post('track', SpotifyControllers\TrackController::class);
+    Route::post('audio-features', [SpotifyController::class, 'trackAudioFeatures']);
 });
 
 Route::get('/artist/search-by-genre', SearchController::class);
