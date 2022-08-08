@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Spotify;
 
 use App\Enum\Entity;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\SpotifyController;
 use App\Processor\SearchProcessor;
 use Illuminate\Http\JsonResponse;

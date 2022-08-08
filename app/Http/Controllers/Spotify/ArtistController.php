@@ -10,6 +10,32 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * @OA\Post(
+ *     path="/api/spotify/artist",
+ *     description="Search for an artist by Spotify id",
+ *     tags={"Artist"},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\MediaType(
+ *             mediaType="application/x-www-form-urlencoded",
+ *             @OA\Schema(
+ *                 @OA\Property(property="id", description="Spotify id of an artist", example="6JW8wliOEwaDZ231ZY7cf4"),
+ *                 required={"id"}
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful request",
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Validation exception, if search query is empty",
+ *     ),
+ * )
+ *
+ */
 class ArtistController extends SpotifyController
 {
     public function __invoke(
@@ -18,8 +44,6 @@ class ArtistController extends SpotifyController
         AlbumProcessor $processor
     ): JsonResponse {
         try {
-//            $id = '4P0dddbxPil35MNN9G2MEX';
-
             Validator::validate($request->all(), [
                 'id' => 'required|string'
             ]);
